@@ -1,7 +1,6 @@
 "use client"
 
 import Link from 'next/link'
-import { useState } from 'react'
 import Image from 'next/image';
 import {
     Menubar,
@@ -22,7 +21,7 @@ const Navbar = () => {
                 <Image src="/kanban-icon.png" width={50} height={50} alt='logo' />
             </Link>
             <div className="flex items-center space-x-16" >
-                {!isAuthenticated ? (
+                {isAuthenticated ? (
                     <div className="relative flex items-center space-x-5 text-xl font-semibold cursor-pointer select-none" >
                         <Menubar>
                             <MenubarMenu>
