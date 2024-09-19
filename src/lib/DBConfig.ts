@@ -13,7 +13,7 @@ const connectDB = async () => {
     console.log("Already connected to the database");
     return;
   }
-  
+
   try {
     const db = await mongoose.connect(process.env.MONGODB_URI || "", {});
 
