@@ -1,5 +1,6 @@
 "use client"
 
+import { useContext } from 'react';
 import Link from 'next/link'
 import Image from 'next/image';
 import {
@@ -10,10 +11,12 @@ import {
     MenubarSeparator,
     MenubarTrigger,
 } from "@/components/ui/menubar"
+import { Context as DataContext } from '@/context/dataContext';
+
 
 const Navbar = () => {
 
-    let isAuthenticated = false
+    const { state: { isAuthenticated, user: { name } } } = useContext(DataContext)
 
     return (
         <div className="bg-gradient-to-br from-[#aa1dac] via-[#ac1d89] to-[#1e0f50] flex items-center justify-between text-white p-3 px-10 h-20" >
@@ -25,7 +28,7 @@ const Navbar = () => {
                     <div className="relative flex items-center space-x-5 text-xl font-semibold cursor-pointer select-none" >
                         <Menubar>
                             <MenubarMenu>
-                                <MenubarTrigger>Username</MenubarTrigger>
+                                <MenubarTrigger>{name}</MenubarTrigger>
                                 <MenubarContent>
                                     <MenubarItem>
                                         <Link href="/dashboard" className='flex items-center space-x-3 text-sm p-1 rounded-lg' >

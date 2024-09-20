@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide a phone number"]
   },
+  onBoarded: {
+    type: Boolean,
+    default: false
+  },
   password: {
     type: String,
     required: [true, "Please provide a password"]

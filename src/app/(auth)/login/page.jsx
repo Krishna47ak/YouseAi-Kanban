@@ -47,7 +47,7 @@ const Login = () => {
                 if (data?.success) {
                     authenticate(data)
                     toast.success("Logged in successfully")
-                    router.replace("/")
+                    router.replace("/onboarding")
                 } else {
                     throw new Error('Login failed!!');
                 }
