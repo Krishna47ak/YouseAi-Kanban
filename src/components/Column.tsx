@@ -102,10 +102,10 @@ const Column: React.FC<ColumnProps> = ({ title, tasks, droppableId }) => {
                                         </div>
 
                                         {hoverIndex === index && (
-                                            <div className="flex gap-5">
+                                            <div>
                                                 <Dialog open={isDelete} onOpenChange={() => openDeleteModal(task._id!)} >
                                                     <DialogTrigger className="text-xs text-red-500 mt-1 cursor-pointer" >Delete</DialogTrigger>
-                                                    <DialogContent>
+                                                    <DialogContent className="w-[90%]" >
                                                         <DialogTitle>You are going to delete this task!!</DialogTitle>
                                                         <Modal
                                                             closeModal={closeDeleteModal}

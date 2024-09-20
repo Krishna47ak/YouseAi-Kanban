@@ -147,7 +147,7 @@ const MyBoard = () => {
 
     return (
         <div className="py-10 relative min-h-[calc(100vh-5rem)]">
-            <div className="mb-5 ml-20 w-44" >
+            <div className="mb-5 ml-5 sm:ml-10 lg:ml-20 w-44" >
                 <Select onValueChange={(e: any) => setSortOption(e as 'priority' | 'dueDate')} >
                     <SelectTrigger className="w-full bg-gray-300 text-black rounded-lg py-5">
                         <SelectValue placeholder="Priority" />
@@ -166,7 +166,7 @@ const MyBoard = () => {
                             <DialogTrigger className="mt-1 cursor-pointer" >
                                 <Image src="/plus-icon.svg" width={35} height={35} alt="add" />
                             </DialogTrigger>
-                            <DialogContent>
+                            <DialogContent className="w-[90%]" >
                                 <DialogTitle className="hidden"  >Create New Task</DialogTitle>
                                 <Modal
                                     closeModal={() => setIsCreate(false)}
