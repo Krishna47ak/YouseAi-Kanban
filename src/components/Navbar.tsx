@@ -32,15 +32,15 @@ const Navbar = () => {
                                 <MenubarTrigger>{name}</MenubarTrigger>
                                 <MenubarContent>
                                     <MenubarItem>
-                                        <Link href="/dashboard" className='flex items-center space-x-3 text-sm p-1 rounded-lg' >
-                                            <Image className='min-w-5 w-5' src="/dashboard-icon.svg" width={30} height={30} alt='profile' />
-                                            <p>Dashboard</p>
-                                        </Link>
-                                    </MenubarItem>
-                                    <MenubarItem>
                                         <Link href="/myboard" className='flex items-center space-x-3 text-sm p-1 rounded-lg' >
                                             <Image className='min-w-5 w-5' src="/kanban-icon.svg" width={30} height={30} alt='profile' />
                                             <p>My Board</p>
+                                        </Link>
+                                    </MenubarItem>
+                                    <MenubarItem>
+                                        <Link href="/dashboard" className='flex items-center space-x-3 text-sm p-1 rounded-lg' >
+                                            <Image className='min-w-5 w-5' src="/dashboard-icon.svg" width={30} height={30} alt='profile' />
+                                            <p>Dashboard</p>
                                         </Link>
                                     </MenubarItem>
                                     <MenubarSeparator />
