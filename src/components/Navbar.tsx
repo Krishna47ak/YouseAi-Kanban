@@ -16,7 +16,7 @@ import { Context as DataContext } from '@/context/dataContext';
 
 const Navbar = () => {
 
-    const { state: { isAuthenticated, user: { name } } } = useContext(DataContext)
+    const { state: { isAuthenticated, user: { name } }, signOut } = useContext(DataContext)
 
     return (
         <div className="bg-[#1e0f50] flex items-center justify-between text-white p-3 px-10 h-20" >
@@ -37,7 +37,7 @@ const Navbar = () => {
                                         </Link>
                                     </MenubarItem>
                                     <MenubarSeparator />
-                                    <MenubarItem>
+                                    <MenubarItem onClick={() => signOut()} >
                                         <div className='flex items-center space-x-3 text-sm p-1 text-red-600 rounded-lg' >
                                             <Image className='min-w-5 w-5' src="/signout-icon.svg" width={30} height={30} alt='profile' />
                                             <p>Sign out</p>

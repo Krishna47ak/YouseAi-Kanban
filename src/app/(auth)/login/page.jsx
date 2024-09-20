@@ -61,7 +61,7 @@ const Login = () => {
 
     return (
         <div className='flex justify-center items-center bg-black text-white min-h-screen p-5 sm:p-10' >
-            <div className='w-full sm:w-auto lg:w-[35%]' >
+            <div className='w-full sm:w-auto lg:w-[40%] xl:w-[35%]' >
                 <p className='text-4xl font-semibold text-center mb-10' >Register to your account</p>
                 <form className='border p-10 sm:p-14 pb-16 rounded-xl' onSubmit={loginFormik.handleSubmit} >
                     <FormInput name="Email" value={loginFormik.values.email} onChange={loginFormik.handleChange} onBlur={loginFormik.handleBlur} touched={loginFormik.touched.email} error={loginFormik.errors.email} placeholder='Email*' type='email' />

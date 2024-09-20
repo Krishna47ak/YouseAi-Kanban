@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import createDataContext from "./createDataContext";
+import { onSignOut } from "@/actions/SignoutAction";
 
 const dataReducer = (state, action) => {
     switch (action.type) {
@@ -107,4 +108,13 @@ const createTask = dispatch => async (body) => {
     }
 }
 
-export const { Provider, Context } = createDataContext(dataReducer, { authenticate, fetchUser, fetchTasks, createTask }, { user: [], tasksData: [], isAuthenticated: false, loading: true })
+const signOut = dispatch => async () => {    
+    try {
+        await onSignOut()
+        dispatch({ type: 'signout' })
+    } catch (err) {
+        console.error('Somethng went wrong')
+    }
+}
+
+export const { Provider, Context } = createDataContext(dataReducer, { authenticate, fetchUser, fetchTasks, createTask, signOut }, { user: [], tasksData: [], isAuthenticated: false, loading: true })
