@@ -19,7 +19,7 @@ const Navbar = () => {
     const { state: { isAuthenticated, user: { name } }, signOut } = useContext(DataContext)
 
     return (
-        <div className="bg-[#1e0f50] flex items-center justify-between text-white p-3 px-10 h-20" >
+        <div className="bg-[#1e0f50] flex items-center justify-between text-white p-3 px-5 sm:px-10 h-20" >
             <Link href="/" className="flex items-center space-x-3 text-3xl font-bold" >
                 <Image src="/kanban-logo.png" width={50} height={50} alt='logo' />
                 <p className='hidden sm:block' >TaskFlow</p>

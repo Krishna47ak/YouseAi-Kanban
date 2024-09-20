@@ -170,11 +170,11 @@ const MyBoard = () => {
 
 
     return (
-        <div className="py-10 relative min-h-[calc(100vh-5rem)]">
-            <div className="flex space-x-3 mb-5 ml-5 sm:ml-10 lg:ml-20 w-96" >
+        <div className="py-10 relative min-h-[calc(100vh-5rem)] overflow-hidden">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mb-5 ml-5 mr-5 sm:mr-0 sm:ml-10 lg:ml-20 sm:w-96" >
                 <Select onValueChange={(e: any) => setSortOption(e as 'priority' | 'dueDate')} >
                     <SelectTrigger className="w-full bg-gray-300 text-black rounded-lg py-5">
-                        <SelectValue placeholder="Priority" />
+                        <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent >
                         <SelectItem value="priority" className='uppercase'>Sort by Priority</SelectItem>
