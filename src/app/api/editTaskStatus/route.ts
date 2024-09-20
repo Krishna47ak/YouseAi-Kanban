@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import User from "@/models/user";
-import Board from "@/models/board";
 import connectDB from "@/lib/DBConfig";
+import Board from "@/models/board";
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import mongoose from "mongoose";
 
-connectDB()
+connectDB();
 
-export async function GET(request: Request) {
+export async function PUT(request: Request) {
     try {
+
+        const reqBody = await request.json()
         const userId = await getDataFromToken(request);
 
         const user = await User.findOne({ _id: userId }).select("-password");
@@ -20,26 +22,25 @@ export async function GET(request: Request) {
             }, { status: 401 })
         }
 
-        const tasks = await Board.aggregate([
-            { $match: { user: new mongoose.Types.ObjectId(userId) } },
-            { $unwind: '$tasks' },
-            // { $match: { 'tasks._id': new mongoose.Types.ObjectId(taskId) } },
-            { $replaceRoot: { newRoot: '$tasks' } }
-        ]);
+        const { taskId, status } = reqBody
 
-        if (tasks.length === 0) {
-            return NextResponse.json({
-                message: "Tasks not found",
-                success: false
-            }, { status: 404 })
-        }        
+        const task = await Board.updateOne(
+            { user: new mongoose.Types.ObjectId(userId), 'tasks._id': new mongoose.Types.ObjectId(taskId) },
+            { $set: { 'tasks.$.status': status } }
+        );
+
+        console.log(task);
+        
+
 
         return NextResponse.json({
-            success: true,
-            tasks
+            message: "Task status updated successfully",
+            success: true
         })
+
 
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 })
+
     }
 }
