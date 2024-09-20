@@ -5,7 +5,7 @@ interface FormInputProps {
     value: string | number;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     onBlur: (event: FocusEvent<HTMLInputElement>) => void;
-    touched: boolean;
+    touched: boolean | undefined;
     error?: string;
     placeholder?: string;
     type?: string;
