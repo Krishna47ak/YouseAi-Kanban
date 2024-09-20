@@ -1,6 +1,17 @@
-import React from 'react'
+import { ChangeEvent, FocusEvent } from 'react'
 
-const FormInput = ({ name, value, onChange, onBlur, touched, error, placeholder, type = "text" }) => {
+interface FormInputProps {
+    name: string;
+    value: string | number;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onBlur: (event: FocusEvent<HTMLInputElement>) => void;
+    touched: boolean;
+    error?: string;
+    placeholder?: string;
+    type?: string;
+}
+
+const FormInput: React.FC<FormInputProps> = ({ name, value, onChange, onBlur, touched, error, placeholder, type = "text" }) => {
     return (
         <div className='flex flex-col mb-5' >
             <label>{name}:</label>

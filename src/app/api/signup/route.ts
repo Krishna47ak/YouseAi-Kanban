@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
         const response = NextResponse.json({
             message: "User created successfully",
-            user: { name, email, phone },
+            user: { name, email, phone, onBoarded: false },
             success: true,
         })
 
