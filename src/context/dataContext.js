@@ -28,6 +28,11 @@ const dataReducer = (state, action) => {
                 ...state,
                 loading: true
             }
+        case 'stop_loading':
+            return {
+                ...state,
+                loading: false
+            }
         case 'signout':
             return {
                 ...state,
@@ -63,13 +68,13 @@ const fetchUser = dispatch => async () => {
             throw new Error('User is Unauthorized');
         }
     } catch (err) {
-        toast.error('Something went wrong')
+        dispatch({ type: 'stop_loading' })
+        toast.error('Please login to continue')
     }
 }
 
 const fetchTasks = dispatch => async () => {
     try {
-        dispatch({ type: 'set_loading' })
         const response = await fetch(`${process.env.DOMAIN}/api/tasks`)
         const resData = await response.json()
         if (resData?.success) {

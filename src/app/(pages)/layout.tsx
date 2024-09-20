@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useEffect } from "react"
+import { useCallback, useContext, useEffect, useMemo } from "react"
 import Navbar from "@/components/Navbar"
 import { Context as DataContext } from "@/context/dataContext";
 import FadeLoader from "react-spinners/FadeLoader";
@@ -10,11 +10,15 @@ import FadeLoader from "react-spinners/FadeLoader";
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     const { state: { isAuthenticated, loading }, fetchUser } = useContext(DataContext)
 
+    const isAuthenticatedMemo = useMemo(() => isAuthenticated, [])
+    const fetchUserMemo = useCallback(() => (fetchUser()), [])
+
+
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (!isAuthenticatedMemo) {
             fetchUser()
         }
-    }, [isAuthenticated, fetchUser])
+    }, [isAuthenticatedMemo, fetchUserMemo])
 
 
 

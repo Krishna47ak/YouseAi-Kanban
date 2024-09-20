@@ -19,7 +19,7 @@ const Navbar = () => {
     const { state: { isAuthenticated, user: { name } } } = useContext(DataContext)
 
     return (
-        <div className="bg-gradient-to-br from-[#aa1dac] via-[#ac1d89] to-[#1e0f50] flex items-center justify-between text-white p-3 px-10 h-20" >
+        <div className="bg-[#1e0f50] flex items-center justify-between text-white p-3 px-10 h-20" >
             <Link href="/" className="text-3xl font-bold" >
                 <Image src="/kanban-icon.png" width={50} height={50} alt='logo' />
             </Link>
