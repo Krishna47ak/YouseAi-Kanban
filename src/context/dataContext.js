@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import createDataContext from "./createDataContext";
 
 const dataReducer = (state, action) => {
@@ -22,6 +23,11 @@ const dataReducer = (state, action) => {
                 tasksData: action.payload,
                 loading: false
             }
+        case 'set_loading':
+            return {
+                ...state,
+                loading: true
+            }
         case 'signout':
             return {
                 ...state,
@@ -43,7 +49,7 @@ const authenticate = dispatch => async (data) => {
             throw new Error('User is Unauthorized');
         }
     } catch (err) {
-        console.error('Somethng went wrong')
+        toast.error('Something went wrong')
     }
 }
 
@@ -57,12 +63,13 @@ const fetchUser = dispatch => async () => {
             throw new Error('User is Unauthorized');
         }
     } catch (err) {
-        console.error('Somethng went wrong')
+        toast.error('Something went wrong')
     }
 }
 
 const fetchTasks = dispatch => async () => {
     try {
+        dispatch({ type: 'set_loading' })
         const response = await fetch(`${process.env.DOMAIN}/api/tasks`)
         const resData = await response.json()
         if (resData?.success) {
@@ -71,8 +78,28 @@ const fetchTasks = dispatch => async () => {
             throw new Error('Tasks not found');
         }
     } catch (err) {
-        console.error('Somethng went wrong')
+        toast.error('Something went wrong')
     }
 }
 
-export const { Provider, Context } = createDataContext(dataReducer, { authenticate, fetchUser, fetchTasks }, { user: [], tasksData: [], isAuthenticated: false, loading: true })
+const createTask = dispatch => async (body) => {
+    try {
+        const res = await fetch(`${process.env.DOMAIN}/api/createTask`, {
+            credentials: "include",
+            method: "POST",
+            body,
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const resData = await res.json()
+        if (resData?.success) {
+            dispatch({ type: 'fetch_tasks', payload: resData?.tasks })
+            toast.success("Task creation successful")
+        } else {
+            throw new Error('Task creation failed!!');
+        }
+    } catch (err) {
+        toast.error("Task creation failed")
+    }
+}
+
+export const { Provider, Context } = createDataContext(dataReducer, { authenticate, fetchUser, fetchTasks, createTask }, { user: [], tasksData: [], isAuthenticated: false, loading: true })
