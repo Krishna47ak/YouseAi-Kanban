@@ -24,6 +24,7 @@ export async function POST(request: Request) {
         const { boardName, task } = reqBody
 
         const newBoard = new Board({
+            user: userId,
             name: boardName,
             tasks: [task]
         })

@@ -12,8 +12,21 @@ const dataReducer = (state, action) => {
         case 'fetch_user':
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 isAuthenticated: true,
+                loading: false
+            }
+        case 'fetch_tasks':
+            return {
+                ...state,
+                tasksData: action.payload,
+                loading: false
+            }
+        case 'signout':
+            return {
+                ...state,
+                user: [],
+                isAuthenticated: false,
                 loading: false
             }
         default:
@@ -39,7 +52,7 @@ const fetchUser = dispatch => async () => {
         const response = await fetch(`${process.env.DOMAIN}/api/user`)
         const resData = await response.json()
         if (resData?.success) {
-            dispatch({ type: 'fetch_user', payload: { user: resData?.user } })
+            dispatch({ type: 'fetch_user', payload: resData?.user })
         } else {
             throw new Error('User is Unauthorized');
         }
@@ -48,4 +61,18 @@ const fetchUser = dispatch => async () => {
     }
 }
 
-export const { Provider, Context } = createDataContext(dataReducer, { authenticate, fetchUser,  }, { user: [], isAuthenticated: false, loading: true })
+const fetchTasks = dispatch => async () => {
+    try {
+        const response = await fetch(`${process.env.DOMAIN}/api/tasks`)
+        const resData = await response.json()
+        if (resData?.success) {
+            dispatch({ type: 'fetch_tasks', payload: resData?.tasks })
+        } else {
+            throw new Error('Tasks not found');
+        }
+    } catch (err) {
+        console.error('Somethng went wrong')
+    }
+}
+
+export const { Provider, Context } = createDataContext(dataReducer, { authenticate, fetchUser, fetchTasks }, { user: [], tasksData: [], isAuthenticated: false, loading: true })
