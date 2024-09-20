@@ -11,13 +11,6 @@ import Input from "@/components/Input";
 import toast from "react-hot-toast";
 import { Context as DataContext } from '@/context/dataContext';
 import FormInput from "@/components/FormInput";
-// import {
-//     Select,
-//     SelectContent,
-//     SelectItem,
-//     SelectTrigger,
-//     SelectValue,
-// } from "@/components/ui/select"
 
 const variants = {
     hidden: { opacity: 0 },
@@ -25,11 +18,16 @@ const variants = {
     exit: { opacity: 0 },
 };
 
+const today = new Date();
+const yesterday = new Date(today);
+yesterday.setDate(today.getDate() - 1);
+
+
 const taskValidationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     description: Yup.string().required('Description is required'),
     priority: Yup.string().required('Priority is required'),
-    dueDate: Yup.date().min((new Date()), 'Please choose a due date that is today or later').required('Due date is required')
+    dueDate: Yup.date().min(yesterday, 'Please choose a due date that is today or later').required('Due date is required')
 });
 
 const taskInitialValues = {
@@ -136,17 +134,6 @@ const Onboarding = () => {
                             <FormInput name="Title" value={taskFormik.values.title} onChange={taskFormik.handleChange} onBlur={taskFormik.handleBlur} touched={taskFormik.touched.title} error={taskFormik.errors.title} placeholder='Title*' type='text' />
                             <FormInput name="Description" value={taskFormik.values.description} onChange={taskFormik.handleChange} onBlur={taskFormik.handleBlur} touched={taskFormik.touched.description} error={taskFormik.errors.description} placeholder='Description*' type='text' />
                             <div className='mb-5 mt-10' >
-                                {/* <Select name='priority' value={taskFormik.values.priority} onValueChange={taskFormik.handleChange} onBlur={taskFormik.handleBlur}  >
-                                    <SelectTrigger className="w-full bg-white text-gray-500 rounded-xl py-5">
-                                        <SelectValue placeholder="Priority" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {priorityOptions?.map(opt => (
-                                            <SelectItem key={opt} value={opt} className='uppercase'>{opt}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select> */}
-
                                 <select name='priority' className={`text-gray-500 w-full py-3 rounded-xl px-4 ${!!taskFormik.values.priority && "uppercase"}`} value={taskFormik.values.priority} onChange={taskFormik.handleChange} onBlur={taskFormik.handleBlur} >
                                     <option value="" className={`text-gray-500 capitalize`} >Priority</option>
                                     {priorityOptions?.map(opt => (
