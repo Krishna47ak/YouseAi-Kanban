@@ -53,8 +53,10 @@ const priorityOrder = {
 const MyBoard = () => {
     const { state: { user: { onBoarded }, tasksData }, fetchTasks, createTask } = useContext(DataContext)
     const [tasks, setTask] = useState<Task[]>(tasksData);
+    const [updatedTasks, setUpdatedTask] = useState<Task[]>(tasksData);
     const [isCreate, setIsCreate] = useState(false);
     const [sortOption, setSortOption] = useState<'priority' | 'dueDate'>('priority');
+    const [filterByPriorityOption, setFilterByPriority] = useState<'HIGH' | 'MEDIUM' | 'LOW' | 'NONE'>('NONE');
     const router = useRouter();
 
 
@@ -145,9 +147,31 @@ const MyBoard = () => {
         }
     });
 
+    const filteredTasks = filterByPriorityOption === 'NONE'
+        ? tasks
+        : tasks.filter(task => task.priority === filterByPriorityOption);
+
+    useEffect(() => {
+        let sortedTasks = [...tasks].sort((a, b) => {
+            if (sortOption === 'priority') {
+                return (priorityOrder[b.priority || 'undefined'] || 0) - (priorityOrder[a.priority || 'undefined'] || 0);
+            } else {
+                return (new Date(a.dueDate?.toString() || 0).getTime() - new Date(b.dueDate?.toString() || 0).getTime());
+            }
+        });
+
+        if (filterByPriorityOption != 'NONE') {
+            const filteredTasks = sortedTasks.filter(task => task.priority === filterByPriorityOption);
+            sortedTasks = filteredTasks;
+        }
+
+        setUpdatedTask(sortedTasks)
+    }, [sortOption, filterByPriorityOption, tasks])
+
+
     return (
         <div className="py-10 relative min-h-[calc(100vh-5rem)]">
-            <div className="mb-5 ml-5 sm:ml-10 lg:ml-20 w-44" >
+            <div className="flex space-x-3 mb-5 ml-5 sm:ml-10 lg:ml-20 w-96" >
                 <Select onValueChange={(e: any) => setSortOption(e as 'priority' | 'dueDate')} >
                     <SelectTrigger className="w-full bg-gray-300 text-black rounded-lg py-5">
                         <SelectValue placeholder="Priority" />
@@ -155,6 +179,17 @@ const MyBoard = () => {
                     <SelectContent >
                         <SelectItem value="priority" className='uppercase'>Sort by Priority</SelectItem>
                         <SelectItem value="dueDate" className='uppercase'>Sort by Due Date</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select onValueChange={(e: any) => setFilterByPriority(e as 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE')} >
+                    <SelectTrigger className="w-full bg-gray-300 text-black rounded-lg py-5">
+                        <SelectValue placeholder="Filter by priority" />
+                    </SelectTrigger>
+                    <SelectContent >
+                        <SelectItem value="NONE" className='uppercase'>NONE</SelectItem>
+                        <SelectItem value="HIGH" className='uppercase'>Filter High priority</SelectItem>
+                        <SelectItem value="MEDIUM" className='uppercase'>Filter Medium priority</SelectItem>
+                        <SelectItem value="LOW" className='uppercase'>Filter Low priority</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
@@ -180,21 +215,21 @@ const MyBoard = () => {
 
                     <Column
                         title="Todo"
-                        tasks={sortedTasks?.filter(
+                        tasks={updatedTasks?.filter(
                             (task) => task.status === "TODO"
                         )}
                         droppableId="todo"
                     />
                     <Column
                         title="In Progress"
-                        tasks={sortedTasks?.filter(
+                        tasks={updatedTasks?.filter(
                             (task) => task.status === "IN_PROGRESS"
                         )}
                         droppableId="inProgress"
                     />
                     <Column
                         title="Completed"
-                        tasks={sortedTasks?.filter(
+                        tasks={updatedTasks?.filter(
                             (task) => task.status === "DONE"
                         )}
                         droppableId="completed"
