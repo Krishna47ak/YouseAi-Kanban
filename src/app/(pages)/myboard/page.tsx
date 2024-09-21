@@ -51,7 +51,7 @@ const priorityOrder = {
 };
 
 const MyBoard = () => {
-    const { state: { user: { onBoarded }, tasksData }, fetchTasks, createTask } = useContext(DataContext)
+    const { state: { user: { onBoarded }, tasksData, isAuthenticated }, fetchTasks, createTask } = useContext(DataContext)
     const [tasks, setTask] = useState<Task[]>(tasksData);
     const [updatedTasks, setUpdatedTask] = useState<Task[]>(tasksData);
     const [isCreate, setIsCreate] = useState(false);
@@ -61,10 +61,10 @@ const MyBoard = () => {
 
 
     useEffect(() => {
-        if (!onBoarded) {
+        if (!onBoarded && isAuthenticated) {
             router.replace("/onboarding");
         }
-    }, [onBoarded])
+    }, [onBoarded, isAuthenticated])
 
 
     useEffect(() => {

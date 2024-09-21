@@ -11,15 +11,12 @@ export function middleware(request: NextRequest) {
 
     const token = request.cookies.get('token')?.value || ''
 
-    console.log(token);
-
-
     if (isPublicPath && token) {
-        return NextResponse.redirect(new URL('/onboarding', request.nextUrl))
+        return NextResponse.redirect(new URL('/onboarding', request.url))
     }
 
     if (isAdminPath && !token) {
-        return NextResponse.redirect(new URL('/login', request.nextUrl))
+        return NextResponse.redirect(new URL('/login', request.url))
     }
 }
 
